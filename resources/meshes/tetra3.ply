@@ -1,0 +1,20 @@
+ply
+format ascii 1.0
+comment Created by Blender 2.80 (sub 75) - www.blender.org, source file: 'tetra3.blend'
+element vertex 5
+property float x
+property float y
+property float z
+property float s
+property float t
+element face 3
+property list uchar uint vertex_indices
+end_header
+0.000000 -0.000000 1.000000 0.490517 0.460025
+0.471407 -0.000016 0.333333 0.739841 0.893352
+-0.235702 0.408252 0.333333 0.239901 0.892606
+-0.235700 -0.408250 0.333333 -0.009417 0.459273
+-0.235700 -0.408250 0.333333 0.990450 0.460772
+3 0 1 2
+3 3 0 2
+3 0 4 1

@@ -1,0 +1,30 @@
+{
+    "models": {
+        "landscape": {
+            "frame": { "pos": [2, 1, 0.5], "quat": [0, 1, 0, 0]},
+            "shader": {
+                "vert": "shader1.vs",
+                "frag": "shader1.fs"
+            },
+            "mesh": "resources/meshes/plane2_p_n_uv1.ply",
+            "textures": {
+                "diffuse": "resources/images/brickwall.jpg"
+            }
+        },
+        "double_tetrahedron": {
+            "frame": { "pos": [2, 1, 0.5], "quat": [0, 1, 0, 0]},
+            "shader": {
+                "vert": "shader1.vs",
+                "frag": "shader1.fs"
+            },
+            "mesh": "resources/meshes/tetra3_p_n_uv1.ply",
+            "textures": {
+                "diffuse": "resources/images/brickwall.jpg"
+            }
+        }
+    },
+    "cameras": {       
+    },
+    "lights": {
+    }
+}
