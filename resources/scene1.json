@@ -9,7 +9,10 @@
             "mesh": "resources/meshes/plane2_p_n_uv1.ply",
             "textures": {
                 "diffuse": "resources/images/brickwall.jpg"
-            }
+            },
+            "lit_by": [
+                "dir1"
+            ]
         },
         "double_tetrahedron": {
             "frame": { "pos": [2, 1, 0.5], "quat": [0, 1, 0, 0]},
@@ -20,11 +23,32 @@
             "mesh": "resources/meshes/tetra3_p_n_uv1.ply",
             "textures": {
                 "diffuse": "resources/images/brickwall.jpg"
-            }
+            },
+            "lit_by": [
+                "point1"
+            ]
         }
     },
-    "cameras": {       
+    "cameras": {
+        "cam1": {
+            "pos": [0.0, 4.0, -2.0],
+            "jaw": 0,
+            "pitch": 0,
+            "note": "todo: fov, near/far plane"
+        }   
     },
     "lights": {
+        "dir1": {
+            "type": 2,
+            "color": [1.0, 1.0, 1.0],
+            "attenuation": [1.0, 0.1, 0.2],
+            "dir": [-1.0, 0.0, 0.0]
+        },
+        "point1": {
+            "type": 1,
+            "color": [1.0, 1.0, 1.0],
+            "attenuation": [1.0, 0.1, 0.2],
+            "pos": [-1.0, 0.0, 0.0]
+        }
     }
 }

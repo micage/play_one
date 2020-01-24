@@ -11,9 +11,42 @@ A model bundles all information which is needed to render a 3d-model
 '''
 
 class Model:
-    def __init__(self):
-        self.mesh = None
-        self.vert = None
-        self.frag = None
-        self.texture = None
+    def __init__(self, data):
+        self.io = data
 
+        self.mesh = None
+        self.shader = None
+        self.textures = {
+            'diffuse': None,
+            'specular': None,
+            'normal': None,
+            'lightmap': None,
+            # 'whatever': None,
+        }
+        self.material = {
+            'ambient': [0.1, 0.1, 0.1],
+            'diffuse': [1.0, 1.0, 1.0],
+            'specular': [1.0, 1.0, 1.0],
+            'shinyness': 0.2
+        }
+
+        self.pos = data['frame']['pos']
+        self.quat = data['frame']['quat']
+
+    def load(self):
+        self.mesh.load()
+        self.shader.load()
+        for tex in self.textures.values():
+            tex.load()
+
+    def create(self):
+        self.mesh.create()
+        self.shader.create()
+        for tex in self.textures.values():
+            tex.create()
+
+    def use(self):
+        self.shader.use()
+        self.mesh.use()
+        for tex in self.textures.values():
+            tex.use()

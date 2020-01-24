@@ -17,10 +17,15 @@ class LightType(Flag):
 
 
 class Light:
-    def __init__(self):
-        self.type = LightType.DIRECTIONAL
-        self.color = [1.0, 1.0, 1.0]
-        self.attenuation = [1.0, 0.0, 0.0]
-        self.dir = [0.0, -1.0, 0.0]
-        self.pos = [0.0, 10.0, 0.0]
+    def __init__(self, data):
+        # self.type = LightType.DIRECTIONAL
+        # self.color = [1.0, 1.0, 1.0]
+        # self.attenuation = [1.0, 0.0, 0.0]
+        # self.dir = [0.0, -1.0, 0.0]
+        # self.pos = [0.0, 10.0, 0.0]
 
+        self.type = LightType(data['type'])
+        self.color = data['color']
+        self.attenuation = data['attenuation']
+        self.dir = data.get('dir')
+        self.pos = data.get('pos')

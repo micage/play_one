@@ -21,15 +21,7 @@ from OpenGL.GL import *
 from enum import Flag
 from plyfile import PlyData, PlyElement
 import numpy as np
-
-class Status(Flag):
-    EMPTY = 0
-    LOADED = 1
-    CREATED = 2
-    def set(self, flag, bit):
-        flag |= bit
-    def unset(self, flag, bit):
-        flag &= ~bit
+from Resource import Resource
 
 
 def parse_props(line_it):
@@ -44,6 +36,7 @@ def parse_props(line_it):
         except:
             break
     return line
+
 
 # helper
 def parse_ply(line_it):
@@ -82,7 +75,7 @@ class Mesh:
         self.VBO = None
         self.EBO = None
         self.stride = 0
-        self.status = Status.EMPTY
+        self.status = Resource.EMPTY
         self.num_faces = 0
         self.has_normals = False
         self.has_uv1 = False
@@ -114,7 +107,8 @@ class Mesh:
             verts_data = Ply['vertex'].data
             props = [p.name for p in verts.properties]
 
-            attrs = [('x', 'y', 'z'), ('nx', 'ny', 'nz'), ('s' 't')]
+            # TODO: find the ordering of attributes e.g. (P N UV1) or (P UV1 N)
+            # attrs = [('x', 'y', 'z'), ('nx', 'ny', 'nz'), ('s' 't')]
             index = 0
 
             # position
@@ -153,16 +147,16 @@ class Mesh:
 
             self._faces = np.hstack(Ply['face']['vertex_indices'])
 
-            self.status |= Status.LOADED # self.status.set(Status.LOADED)
+            self.status |= Resource.LOADED # self.status.set(Resource.LOADED)
 
     def unload(self):
         self._verts = None
         self._faces = None
-        self.status &= ~Status.LOADED  # self.status.set(Status.LOADED)
+        self.status &= ~Resource.LOADED  # self.status.set(Resource.LOADED)
 
     
     def create(self):
-        if not(self.status & Status.LOADED):
+        if not(self.status & Resource.LOADED):
             return
 
         VAO = glGenVertexArrays(1)
@@ -214,17 +208,17 @@ class Mesh:
         self.VAO = VAO
         self.VBO = VBO
         self.EBO = VBO
-        self.status |= Status.CREATED
+        self.status |= Resource.CREATED
     
     def delete(self):
         glDeleteBuffers(1, self.VBO)
         self.VBO = 0
         glDeleteVertexArrays(1, self.VAO)
         self.VAO = 0
-        self.status &= ~Status.CREATED
+        self.status &= ~Resource.CREATED
 
     def use(self):
-        if self.status & Status.CREATED:
+        if self.status & Resource.CREATED:
             glBindVertexArray(self.VAO)
             glDrawElements(GL_TRIANGLES, self.num_faces * 3, GL_UNSIGNED_INT, None)
 

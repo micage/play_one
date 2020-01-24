@@ -5,16 +5,8 @@ from OpenGL.GL import glCreateShader, glShaderSource, glCompileShader, glGetShad
     GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, GL_LINK_STATUS, GL_TRUE, GL_FALSE, \
     GL_VALIDATE_STATUS, GL_COMPILE_STATUS
 from enum import Flag
+from Resource import Resource
 
-
-class Status(Flag):
-    EMPTY = 0
-    LOADED = 1
-    CREATED = 2
-    def set(self, flag, bit):
-        flag |= bit
-    def unset(self, flag, bit):
-        flag &= ~bit
 
 class Shader:
     def __init__(self, vs_file, fs_file):
@@ -23,7 +15,7 @@ class Shader:
         self.vs_str = None
         self.fs_str = None
         self.program = None
-        self.status = Status.EMPTY
+        self.status = Resource.EMPTY
 
     def load(self):
         ''' loads a shader from a *.vs file and a *.fs file '''
@@ -34,17 +26,17 @@ class Shader:
             self.fs_str = f.read()
 
         if self.vs_str and self.fs_str:
-            self.status |= Status.LOADED # self.status.set(Status.LOADED)
+            self.status |= Resource.LOADED  # self.status.set(Status.LOADED)
         else:
             self.unload()
 
     def unload(self):
         self.vs_str = None
         self.fs_str = None
-        self.status &= ~Status.LOADED  # self.status.set(Status.LOADED)
+        self.status &= ~Resource.LOADED  # self.status.set(Status.LOADED)
 
     def create(self):
-        if not(self.status & Status.LOADED):
+        if not(self.status & Resource.LOADED):
             return
 
         vs = glCreateShader(GL_VERTEX_SHADER)
@@ -74,15 +66,15 @@ class Shader:
 
         # todo: check for errrors before setting status
         self.program = program
-        self.status |= Status.CREATED
+        self.status |= Resource.CREATED
     
     def delete(self):
         glDeleteProgram(self.program)
         self.program = 0
-        self.status &= ~Status.CREATED
+        self.status &= ~Resource.CREATED
 
     def use(self):
-        if self.status & Status.CREATED:
+        if self.status & Resource.CREATED:
             glUseProgram(self.program)
 
         

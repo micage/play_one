@@ -2,12 +2,15 @@
 import glfw
 from OpenGL.GL import *
 import pyrr
+import logging
+logging.basicConfig(filename='debug.log', level=logging.DEBUG)
 
-from Mesh import Mesh, Status
+from Mesh import Mesh
 from Shader import Shader
 from Texture import Texture
 from Camera import Camera, Process_mouse
 from Scene import Scene
+from Light import Light
 
 WIDTH, HEIGHT = 1280, 720
 lastX, lastY = WIDTH / 2, HEIGHT / 2
@@ -112,6 +115,7 @@ glfw.make_context_current(window)
 # load a scene
 scene = Scene("resources/scene1.json")
 cam = scene.active_camera
+cam.process_mouse_movement(0, 0) # this most certainly not the correct way
 
 # mesh1 = Mesh("resources/meshes/tetra2.ply")
 mesh1 = Mesh("resources/meshes/tetra3_p_n_uv1.ply")
@@ -146,16 +150,15 @@ tex3 = Texture("resources/images/StoneMarbleCalacatta004_COL_2K.jpg")
 tex3.load()
 tex3.create()
 
-cam.process_mouse_movement(0, 0)
+light_pos = [0.0, 1.0, 3.0]
 
+# set global render states
 glClearColor(0, 0.1, 0.1, 1)
 glEnable(GL_DEPTH_TEST)
 glEnable(GL_BLEND)
 glEnable(GL_CULL_FACE)
 # glCullFace(GL_FRONT)
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
-light_pos = [0.0, 1.0, 3.0]
 
 
 # the main application loop
@@ -202,6 +205,8 @@ while not glfw.window_should_close(window):
     # glUniformMatrix4fv(model_loc, 1, GL_FALSE, mesh3_mat)
     # tex3.use()
     # mesh3.use()
+
+    #scene.render()
 
     glfw.swap_buffers(window)
 

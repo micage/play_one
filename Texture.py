@@ -9,6 +9,7 @@ from OpenGL.GL import glGenTextures, glBindTexture, glTexParameteri, glTexImage2
 
 from PIL import Image
 from Resource import Resource
+import logging
 
 # for use with GLFW
 def load_texture(path, texture):
@@ -52,7 +53,7 @@ class Texture:
         self.image = None
         self.width = 0
         self.height = 0
-        self.status = Resource.EMPTY
+        self.status &= ~Resource.LOADED
 
     def create(self):
         tex = glGenTextures(1)
@@ -70,11 +71,15 @@ class Texture:
                      self.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, self.image)
                     
         self.tex = tex
+        self.status |= Resource.CREATED
 
     def destroy(self):
-        pass
+        # TODO: destroy texture
+        self.status &= ~Resource.CREATED
 
     def use(self):
         glBindTexture(GL_TEXTURE_2D, self.tex)
+        if not self.tex:
+            logging.warning("OpenGl: Texture is {self.tex}")
 
 

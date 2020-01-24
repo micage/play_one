@@ -36,9 +36,8 @@ def Axis_from_jaw_pitch(jaw, pitch):
 
     return (front, right, up)
 
-
 class Camera:
-    def __init__(self):
+    def __init__(self, data):
         self.pos = Vector3([0.0, 8.0, 2.0])
         self.right = Vector3([1.0, 0.0, 0.0])
         self.up = Vector3([0.0, 0.0, 1.0])
