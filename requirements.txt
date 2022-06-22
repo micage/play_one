@@ -1,6 +1,6 @@
 glfw==1.11.0
 multipledispatch==0.6.0
-numpy==1.18.2
+numpy==1.22.0
 Pillow==7.1.1
 plyfile==0.7.2
 PyOpenGL==3.1.5
